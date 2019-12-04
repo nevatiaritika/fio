@@ -37,9 +37,6 @@ unsigned long long gauss_next(struct gauss_state *gs)
 		sum += dev;
 	}
 
-	if (!gs->disable_hash)
-		sum = __hash_u64(sum);
-
 	return sum % gs->nranges;
 }
 
@@ -55,9 +52,4 @@ void gauss_init(struct gauss_state *gs, unsigned long nranges, double dev,
 		if (gs->stddev > nranges / 2)
 			gs->stddev = nranges / 2;
 	}
-}
-
-void gauss_disable_hash(struct gauss_state *gs)
-{
-	gs->disable_hash = true;
 }

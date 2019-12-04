@@ -64,9 +64,6 @@ uint64_t zipf_next(struct zipf_state *zs)
 
 	val--;
 
-	if (!zs->disable_hash)
-		val = __hash_u64(val);
-
 	return (val + zs->rand_off) % zs->nranges;
 }
 
@@ -84,13 +81,5 @@ uint64_t pareto_next(struct zipf_state *zs)
 
 	n = (zs->nranges - 1) * pow(rand, zs->pareto_pow);
 
-	if (!zs->disable_hash)
-		n = __hash_u64(n);
-
 	return (n + zs->rand_off)  % zs->nranges;
-}
-
-void zipf_disable_hash(struct zipf_state *zs)
-{
-	zs->disable_hash = true;
 }

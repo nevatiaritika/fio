@@ -977,16 +977,12 @@ static void init_rand_file_service(struct thread_data *td)
 	unsigned long nranges = td->o.nr_files << FIO_FSERVICE_SHIFT;
 	const unsigned int seed = td->rand_seeds[FIO_RAND_FILE_OFF];
 
-	if (td->o.file_service_type == FIO_FSERVICE_ZIPF) {
+	if (td->o.file_service_type == FIO_FSERVICE_ZIPF)
 		zipf_init(&td->next_file_zipf, nranges, td->zipf_theta, seed);
-		zipf_disable_hash(&td->next_file_zipf);
-	} else if (td->o.file_service_type == FIO_FSERVICE_PARETO) {
+	else if (td->o.file_service_type == FIO_FSERVICE_PARETO)
 		pareto_init(&td->next_file_zipf, nranges, td->pareto_h, seed);
-		zipf_disable_hash(&td->next_file_zipf);
-	} else if (td->o.file_service_type == FIO_FSERVICE_GAUSS) {
+	else if (td->o.file_service_type == FIO_FSERVICE_GAUSS)
 		gauss_init(&td->next_file_gauss, nranges, td->gauss_dev, seed);
-		gauss_disable_hash(&td->next_file_gauss);
-	}
 }
 
 void td_fill_verify_state_seed(struct thread_data *td)
