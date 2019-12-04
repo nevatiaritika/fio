@@ -1273,12 +1273,16 @@ static void __init_rand_distribution(struct thread_data *td, struct fio_file *f)
 	if (!td->o.rand_repeatable)
 		seed = td->rand_seeds[4];
 
-	if (td->o.random_distribution == FIO_RAND_DIST_ZIPF)
+	if (td->o.random_distribution == FIO_RAND_DIST_ZIPF) {
 		zipf_init(&f->zipf, nranges, td->o.zipf_theta.u.f, seed);
-	else if (td->o.random_distribution == FIO_RAND_DIST_PARETO)
+		zipf_disable_hash(&f->zipf);
+	} else if (td->o.random_distribution == FIO_RAND_DIST_PARETO) {
 		pareto_init(&f->zipf, nranges, td->o.pareto_h.u.f, seed);
-	else if (td->o.random_distribution == FIO_RAND_DIST_GAUSS)
+		zipf_disable_hash(&f->zipf);
+	} else if (td->o.random_distribution == FIO_RAND_DIST_GAUSS) {
 		gauss_init(&f->gauss, nranges, td->o.gauss_dev.u.f, seed);
+		gauss_disable_hash(&f->gauss);
+	}
 }
 
 static bool init_rand_distribution(struct thread_data *td)
