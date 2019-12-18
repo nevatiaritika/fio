@@ -29,7 +29,6 @@ static void shared_rand_init(struct zipf_state *zs, uint64_t nranges,
 	zs->nranges = nranges;
 
 	init_rand_seed(&zs->rand, seed, 0);
-	zs->rand_off = __rand(&zs->rand);
 }
 
 void zipf_init(struct zipf_state *zs, uint64_t nranges, double theta,
@@ -67,7 +66,7 @@ uint64_t zipf_next(struct zipf_state *zs)
 	if (!zs->disable_hash)
 		val = __hash_u64(val);
 
-	return (val + zs->rand_off) % zs->nranges;
+	return val;
 }
 
 void pareto_init(struct zipf_state *zs, uint64_t nranges, double h,
@@ -87,7 +86,7 @@ uint64_t pareto_next(struct zipf_state *zs)
 	if (!zs->disable_hash)
 		n = __hash_u64(n);
 
-	return (n + zs->rand_off)  % zs->nranges;
+	return n;
 }
 
 void zipf_disable_hash(struct zipf_state *zs)
