@@ -12,7 +12,6 @@ struct zipf_state {
 	double zetan;
 	double pareto_pow;
 	struct frand_state rand;
-	uint64_t rand_off;
 	bool disable_hash;
 };
 
